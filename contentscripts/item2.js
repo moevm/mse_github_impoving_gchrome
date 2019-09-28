@@ -5,6 +5,7 @@ if(search[0] !== undefined) {
     gitExt.id = "git_ext";
 
     let plus_img = document.createElement("img");
+    plus_img.id = "plus_img";
     plus_img.src = "https://img.icons8.com/small/16/000000/plus.png";
 
     let line = document.createElement("button");

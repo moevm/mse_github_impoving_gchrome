@@ -37,6 +37,11 @@
       "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item2.css"],
       "js": [ "contentscripts/item2.js" ]
+    },
+    {
+      "matches": [ "*://github.com/*/*" ],
+      "css": ["styles/item3.css"],
+      "js": [ "contentscripts/item3.js" ]
     }
   ],
   "manifest_version": 2
