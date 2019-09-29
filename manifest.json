@@ -16,5 +16,12 @@
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
+  "content_scripts": [
+    {
+      "matches": [ "*://github.com/*/*" ],
+      "css": ["styles/item5.css"],
+      "js": [ "contentscripts/item5.js" ]
+    }
+  ],
   "manifest_version": 2
 }
