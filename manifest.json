@@ -52,6 +52,11 @@
       "matches": [ "*://github.com/*/*/projects/*" ],
       "css": ["styles/item7.css", "styles/item8.css"],
       "js": [ "contentscripts/item7.js", "contentscripts/item8.js" ]
+    },
+    {
+      "matches": [ "*://github.com/*/*/projects/*" ],
+      "css": ["styles/item4.css"],
+      "js": [ "contentscripts/item4.js" ]
     }
   ],
   "manifest_version": 2
