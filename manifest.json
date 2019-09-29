@@ -2,13 +2,24 @@
   "name": "GitExtension",
   "version": "1.0",
   "description": "MOEVM PI project",
+  "background": {
+    "scripts": ["background/background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "tabs",
+    "*://github.com/*/*"  ],
   "page_action": {
     "default_icon": {
       "16": "images/icon16.png",
       "32": "images/icon32.png",
       "48": "images/icon48.png",
       "128": "images/icon128.png"
-    }
+    },
+    "default_popup": "html/popup.html"
   },
   "icons": {
     "16": "images/icon16.png",
@@ -21,6 +32,16 @@
       "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item5.css"],
       "js": [ "contentscripts/item5.js" ]
+    },
+    {
+      "matches": [ "*://github.com/*/*" ],
+      "css": ["styles/item2.css"],
+      "js": [ "contentscripts/item2.js" ]
+    },
+    {
+      "matches": [ "*://github.com/*/*" ],
+      "css": ["styles/item3.css"],
+      "js": [ "contentscripts/item3.js" ]
     }
   ],
   "manifest_version": 2

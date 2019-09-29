@@ -1,0 +1,13 @@
+#git_ext {
+  padding-left: 3%;
+  text-align: center;
+  display: inline-flex;
+}
+
+#plus_img {
+    display: inline-flex;
+}
+
+#create_task_button {
+    display: inline-flex;
+}
