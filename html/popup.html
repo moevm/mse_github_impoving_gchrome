@@ -4,6 +4,9 @@
     <title>MOEVM Extension</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
+        .main {
+            width: 300px;
+        }
         button {
             height: auto;
             width: 100%;
@@ -14,15 +17,39 @@
     <script src="popup.js"></script>
 </head>
 <body>
-<h3>MOEVM Github</h3>
-<label>
-    Year:
-    <input id="year" type="text" value="2017">
-</label>
-<label>
-    Count:
-    <input id="count" type="text" value="4">
-</label>
-<button id="createRepos" class="w3-button w3-black">Create repos</button>
+<div class="main">
+    <h3>MOEVM Github</h3>
+    <div>
+        <label>
+            Year:
+            <input id="year" type="text" value="2019">
+        </label>
+    </div>
+    <div>
+        <label>
+            Count:
+            <input id="count" type="text" value="4">
+        </label>
+    </div>
+    <div>
+        <label>
+            Token:
+            <input id="token" type="text" placeholder="Insert generated token...">
+        </label>
+    </div>
+    <div>
+        <label>
+            Users:
+            <input id="users" type="text" placeholder="Users comma separeted...">
+        </label>
+    </div>
+    <div>
+        <label>
+            Teams:
+            <input id="teams" type="text" placeholder="Teams comma separeted...">
+        </label>
+    </div>
+    <button id="createRepos" class="w3-button w3-black">Create repos</button>
+</div>
 </body>
 </html>
