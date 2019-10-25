@@ -1,4 +1,5 @@
 setInterval(() => {
+  
 let short_task_info = document.getElementsByClassName("link-gray-dark js-project-card-details-external-link");
 for (let i = 0; i < short_task_info.length; ++i) {
     if (short_task_info[i].childElementCount < 3) {

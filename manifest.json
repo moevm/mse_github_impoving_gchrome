@@ -31,32 +31,32 @@
     {
       "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item5.css"],
-      "js": [ "contentscripts/item5.js" ]
+      "js": [ "content_scripts/item5.js" ]
     },
     {
       "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item2.css"],
-      "js": [ "contentscripts/item2.js" ]
+      "js": [ "content_scripts/item2.js" ]
     },
     {
       "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item3.css"],
-      "js": [ "contentscripts/item3.js" ]
+      "js": [ "content_scripts/item3.js" ]
     },
     {
-      "matches": [ "*://github.com/*/*/pulls" ],
+      "matches": [ "*://github.com/*/*" ],
       "css": ["styles/item6.css"],
-      "js": [ "contentscripts/item6.js" ]
+      "js": [ "background/jquery-3.4.1.min.js", "content_scripts/item6.js" ]
     },
     {
       "matches": [ "*://github.com/*/*/projects/*" ],
       "css": ["styles/item7.css", "styles/item8.css"],
-      "js": [ "contentscripts/item7.js", "contentscripts/item8.js" ]
+      "js": [ "content_scripts/item7.js", "content_scripts/item8.js" ]
     },
     {
       "matches": [ "*://github.com/*/*/projects/*" ],
       "css": ["styles/item4.css"],
-      "js": [ "contentscripts/item4.js" ]
+      "js": [ "content_scripts/item4.js" ]
     }
   ],
   "manifest_version": 2
