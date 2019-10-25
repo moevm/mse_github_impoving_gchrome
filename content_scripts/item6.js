@@ -42,3 +42,4 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
   
     return true;
 })
+
