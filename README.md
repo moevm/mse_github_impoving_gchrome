@@ -3,7 +3,7 @@
 ## Install
 * Download ZIP 
 * Unzip
-* Upload ZIP using Google Chrome extesions setting
+* Upload extension using Google Chrome extesions setting
 
 ## Features done 
 * Create repositoriest (token needed: https://github.com/settings/tokens)
