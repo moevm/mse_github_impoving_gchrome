@@ -1,4 +1,5 @@
 function getPulls(token, url, start_from) {
+    url = url + '&access_token=' + token
     return fetch(start_from ? url + '&page=' + start_from : url, {
         method: 'GET',
         headers: {
@@ -33,13 +34,14 @@ function addMergeConflitIcon(pulls) {
 
 chrome.extension.onMessage.addListener(function(request, sender, response) {
     if (request.type === 'updatePage') {
-        let url = window.location.pathname.split("/")
-    
-        let path = `https://api.github.com/repos/${url[1]}/${url[2]}/pulls?state=open&per_page=30&sort=created&direction=desc`
-    
-        getPulls("", path, 1)
+        chrome.storage.local.get((['token'], (res) => {
+            let token = res['token']
+            let url = window.location.pathname.split("/")
+            let path = `https://api.github.com/repos/${url[1]}/${url[2]}/pulls?state=open&per_page=30&sort=created&direction=desc`
+            getPulls(token, path, 1)
+        }))
+
     }
   
     return true;
 })
-
