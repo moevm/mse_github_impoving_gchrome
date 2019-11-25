@@ -11,7 +11,9 @@
     "declarativeContent",
     "storage",
     "tabs",
-    "*://github.com/*/*"  ],
+    "*://github.com/*/*",
+    "https://github.com/login/oauth/access_token"
+  ],
   "page_action": {
     "default_icon": {
       "16": "images/icon16.png",
@@ -57,7 +59,15 @@
       "matches": [ "*://github.com/*/*/projects/*" ],
       "css": ["styles/item4.css"],
       "js": [ "content_scripts/item4.js" ]
+    },
+    {
+      "matches":["https://github.com/robots.txt*"],
+      "js":["libs/chrome-auth/injection.js"],
+      "run_at":"document_start"
     }
+  ],
+  "web_accessible_resources": [
+    "libs/*"
   ],
   "manifest_version": 2
 }
