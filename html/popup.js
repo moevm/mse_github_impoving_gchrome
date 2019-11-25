@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
 
     document.getElementById('oauth-button').addEventListener("click", function() {
+        document.getElementById('count').style.display = "block";
         window.oauth2.start();
     });
 }, false);
