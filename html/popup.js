@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkPageButton = document.getElementById('createRepos');
     checkPageButton.addEventListener('click', function() {
         chrome.tabs.getSelected(null, function(tab) {
-            alert(document.body.innerHTML);
             const count = document.getElementById('count').valueOf().value;
             const year = document.getElementById('year').valueOf().value;
             const grList = document.getElementById('grList').valueOf().value.split(',').map(user => user.trim());
@@ -13,10 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const xhttp = new XMLHttpRequest();
                 xhttp.open("POST", "https://api.github.com/user/repos?access_token=" + token, false);
                 xhttp.setRequestHeader("Content-Type", "application/json");
-                xhttp.send(JSON.stringify({name: (i + 1) + year, auto_init: true}));
-                alert(xhttp.responseText);
-                const name = grList[i] + year;
-                const repo = "<ORGANIZATION_OWNER>" + "/" + (i + 1) + name;//TODO create input for organization owner
+                const name = grList[i] + "-" + year;
+                const repo = "<ORGANIZATION_OWNER>" + "/" + name;
+                xhttp.send(JSON.stringify({name: name, auto_init: true}));
                 xhttp.open("PUT", "https://api.github.com/repos/"+repo+"/branches/master/protection?access_token=" + token, false);
                 xhttp.send(JSON.stringify({
                     required_status_checks: null,
