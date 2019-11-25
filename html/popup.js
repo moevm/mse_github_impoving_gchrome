@@ -5,16 +5,17 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(document.body.innerHTML);
             const count = document.getElementById('count').valueOf().value;
             const year = document.getElementById('year').valueOf().value;
+            const grList = document.getElementById('grList').valueOf().value.split(',').map(user => user.trim());
             const token = document.getElementById('token').valueOf().value;
             const users = document.getElementById('users').valueOf().value.split(',').map(user => user.trim());
             const teams = document.getElementById('teams').valueOf().value.split(',').map(team => team.trim());
-            for(let i = 0; i < parseInt(count); ++i) {
+            for(let i = 0; i < grList.length; ++i) {
                 const xhttp = new XMLHttpRequest();
                 xhttp.open("POST", "https://api.github.com/user/repos?access_token=" + token, false);
                 xhttp.setRequestHeader("Content-Type", "application/json");
                 xhttp.send(JSON.stringify({name: (i + 1) + year, auto_init: true}));
                 alert(xhttp.responseText);
-                const name = (i + 1) + year;
+                const name = grList[i] + year;
                 const repo = "<ORGANIZATION_OWNER>" + "/" + (i + 1) + name;//TODO create input for organization owner
                 xhttp.open("PUT", "https://api.github.com/repos/"+repo+"/branches/master/protection?access_token=" + token, false);
                 xhttp.send(JSON.stringify({
