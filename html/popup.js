@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+    chrome.storage.local.get("isAuth", function(result) {
+        if(result.isAuth) {
+            document.getElementById("create_repo_panel").style.display = "block";
+            document.getElementById("logout-button").style.display = "block";
+            document.getElementById("oauth-button").style.display = "none";
+        } else {
+            document.getElementById("create_repo_panel").style.display = "none";
+            document.getElementById("logout-button").style.display = "none";
+            document.getElementById("oauth-button").style.display = "block";
+        }
+        return result
+    });
+
     const checkPageButton = document.getElementById('createRepos');
     checkPageButton.addEventListener('click', function() {
         chrome.tabs.getSelected(null, function(tab) {
@@ -30,8 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, false);
 
+    document.getElementById('logout-button').addEventListener("click", function () {
+        chrome.storage.local.set({"isAuth": false});
+        document.getElementById("create_repo_panel").style.display = "none";
+        document.getElementById("logout-button").style.display = "none";
+        document.getElementById("oauth-button").style.display = "block";
+        window.oauth2.finish();
+    });
+
     document.getElementById('oauth-button').addEventListener("click", function() {
-        document.getElementById('count').style.display = "block";
+        chrome.storage.local.set({"isAuth": true});
+        document.getElementById("oauth-button").style.display = "none";
+        document.getElementById("logout-button").style.display = "block";
+        document.getElementById("create_repo_panel").style.display = "block";
         window.oauth2.start();
     });
 }, false);
