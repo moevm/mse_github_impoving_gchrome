@@ -10,6 +10,7 @@ if(search[0] !== undefined) {
 
     let line = document.createElement("button");
     line.id = "create_task_button";
+    line.onclick = function clickBtn() {window.location.replace("../issues/new");};
     line.classList.add("btn-link");
     line.classList.add("muted-link");
     line.innerHTML = "Create task";
@@ -20,3 +21,4 @@ if(search[0] !== undefined) {
     search[0].appendChild(gitExt);
 }
 else console.log("FALSE!");
+
