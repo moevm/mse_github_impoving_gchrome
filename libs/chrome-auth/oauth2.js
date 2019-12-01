@@ -20,7 +20,6 @@
         },
 
         finish: function(url) {
-
             function removeTab() {
                 chrome.tabs.getCurrent(function(tab) {
                     chrome.tabs.remove(tab.id);
