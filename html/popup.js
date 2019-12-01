@@ -1,37 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
+    chrome.storage.local.get("isAuth", function(result) {
+        if(result.isAuth) {
+            document.getElementById("create_repo_panel").style.display = "block";
+            document.getElementById("logout-button").style.display = "block";
+            document.getElementById("oauth-button").style.display = "none";
+        } else {
+            document.getElementById("create_repo_panel").style.display = "none";
+            document.getElementById("logout-button").style.display = "none";
+            document.getElementById("oauth-button").style.display = "block";
+        }
+        return result
+    });
+
     const checkPageButton = document.getElementById('createRepos');
     checkPageButton.addEventListener('click', function() {
         chrome.tabs.getSelected(null, function(tab) {
-            alert(document.body.innerHTML);
-            const count = document.getElementById('count').valueOf().value;
-            const year = document.getElementById('year').valueOf().value;
-            const token = document.getElementById('token').valueOf().value;
-            const users = document.getElementById('users').valueOf().value.split(',').map(user => user.trim());
-            const teams = document.getElementById('teams').valueOf().value.split(',').map(team => team.trim());
-            for(let i = 0; i < parseInt(count); ++i) {
-                const xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "https://api.github.com/user/repos?access_token=" + token, false);
-                xhttp.setRequestHeader("Content-Type", "application/json");
-                xhttp.send(JSON.stringify({name: (i + 1) + year, auto_init: true}));
-                alert(xhttp.responseText);
-                const name = (i + 1) + year;
-                const repo = "<ORGANIZATION_OWNER>" + "/" + (i + 1) + name;//TODO create input for organization owner
-                xhttp.open("PUT", "https://api.github.com/repos/"+repo+"/branches/master/protection?access_token=" + token, false);
-                xhttp.send(JSON.stringify({
-                    required_status_checks: null,
-                    enforce_admins: null,
-                    required_pull_request_reviews: null,
-                    restrictions: {
-                        users: users,
-                        teams: teams
-                    }
-                }));
-                alert(xhttp.responseText);
-            }
+            chrome.storage.local.get((['token'], (res) => {
+                alert(res.token);
+                const count = document.getElementById('count').valueOf().value;
+                const year = document.getElementById('year').valueOf().value;
+                const grList = document.getElementById('grList').valueOf().value.split(',').map(user => user.trim());
+                const token = res.token;
+                const users = document.getElementById('users').valueOf().value.split(',').map(user => user.trim());
+                const teams = document.getElementById('teams').valueOf().value.split(',').map(team => team.trim());
+                for (let i = 0; i < grList.length; ++i) {
+                    const xhttp = new XMLHttpRequest();
+                    xhttp.open("POST", "https://api.github.com/user/repos?access_token=" + token, false);
+                    xhttp.setRequestHeader("Content-Type", "application/json");
+                    const name = grList[i] + "-" + year;
+                    const repo = "<ORGANIZATION_OWNER>" + "/" + name;
+                    xhttp.send(JSON.stringify({name: name, auto_init: true}));
+                    xhttp.open("PUT", "https://api.github.com/repos/" + repo + "/branches/master/protection?access_token=" + token, false);
+                    xhttp.send(JSON.stringify({
+                        required_status_checks: null,
+                        enforce_admins: null,
+                        required_pull_request_reviews: null,
+                        restrictions: {
+                            users: users,
+                            teams: teams
+                        }
+                    }));
+                }
+            }));
         });
     }, false);
 
+    document.getElementById('logout-button').addEventListener("click", function () {
+        chrome.storage.local.set({"isAuth": false});
+        document.getElementById("create_repo_panel").style.display = "none";
+        document.getElementById("logout-button").style.display = "none";
+        document.getElementById("oauth-button").style.display = "block";
+        window.oauth2.finish();
+    });
+
     document.getElementById('oauth-button').addEventListener("click", function() {
+        chrome.storage.local.set({"isAuth": true});
+        document.getElementById("oauth-button").style.display = "none";
+        document.getElementById("logout-button").style.display = "block";
+        document.getElementById("create_repo_panel").style.display = "block";
         window.oauth2.start();
     });
 }, false);
