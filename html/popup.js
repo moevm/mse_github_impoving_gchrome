@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("create_repo_panel").style.display = "none";
         document.getElementById("logout-button").style.display = "none";
         document.getElementById("oauth-button").style.display = "block";
-        window.oauth2.finish();
+        window.oauth2.clearToken();
     });
 
     document.getElementById('oauth-button').addEventListener("click", function() {
