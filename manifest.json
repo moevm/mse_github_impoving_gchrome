@@ -46,7 +46,7 @@
       "js": [ "content_scripts/item3.js" ]
     },
     {
-      "matches": [ "*://github.com/*/*" ],
+      "matches": [ "*://github.com/*/*/pulls" ],
       "css": ["styles/item6.css"],
       "js": [ "background/jquery-3.4.1.min.js", "content_scripts/item6.js" ]
     },

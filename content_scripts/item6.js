@@ -38,7 +38,8 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
             let token = res['token']
             let url = window.location.pathname.split("/")
             let path = `https://api.github.com/repos/${url[1]}/${url[2]}/pulls?state=open&per_page=30&sort=created&direction=desc`
-            getPulls(token, path, 1)
+            if(token != undefined)
+                getPulls(token, path, 1)
         }))
 
     }
