@@ -3,7 +3,7 @@ setInterval(() => {
         let token = res['token'];
         let url = window.location.pathname.split("/");
         let path = `https://api.github.com/repos/${url[1]}/${url[2]}/issues/`;
-        createComments(path, token);
+        if (token != undefined) createComments(path, token);
     }));
 }, 100);
 
@@ -14,41 +14,41 @@ function createComments(partPath, token) {
         commentBlock[0].appendChild(commentDiv);
         let numberSpan = document.getElementsByClassName('link-gray-dark js-project-card-details-external-link');
         let numberIssue = numberSpan[0].childNodes[3].innerHTML.replace('#', '');
-        let path = `${partPath}${numberIssue}/comments?access_token=${token}`;
         let comments = [];
-
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function (data) {
-            if (this.readyState === 4 && this.status === 200) {
-                let responseData = JSON.parse(data.target.response);
-                for (let elem of responseData) {
-                    let comment = {
-                        'comment': elem.body,
-                        'date': elem.created_at,
-                        'user': elem.user.login,
-                        'avatar': elem.user.avatar_url,
-                        'id': elem.user.id
-                    };
-                    comments.push(comment);
-                }
-                commentDiv.className = ' comments';
-                for (let elem of comments) createElement(elem, commentDiv);
-                let iconCountComments = document.getElementsByClassName('octicon octicon-comment v-align-middle');
-                let button = iconCountComments[0].parentNode;
-                button.style.cursor = 'pointer';
-                button.addEventListener('click', (event) => {
-                    let commentsBlock = document.getElementsByClassName('comments')[0];
-                    if (commentsBlock.style.display === 'none') {
-                        commentsBlock.style.display = '';
-                    } else {
-                        commentsBlock.style.display = 'none';
-                    }
-                });
-            }
-        };
-        xhttp.open("GET", path, true);
-        xhttp.send();
+        let path = `${partPath}${numberIssue}/comments?access_token=${token}`;
+        getComments(comments, commentDiv, path, 1);
+        let iconCountComments = document.getElementsByClassName('octicon octicon-comment v-align-middle');
+        let button = iconCountComments[0].parentNode;
+        button.style.cursor = 'pointer';
+        button.addEventListener('click', (event) => {
+            commentDiv.style.display === 'none' ? commentDiv.style.display = '' : commentDiv.style.display = 'none';
+        });
     }
+}
+
+function getComments(comments, commentDiv, path, numberPage) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (data) {
+        if (this.readyState === 4 && this.status === 200) {
+            let responseData = JSON.parse(data.target.response);
+            if (responseData.length === 0) return;
+            for (let elem of responseData) {
+                let comment = {
+                    'comment': elem.body,
+                    'date': elem.created_at,
+                    'user': elem.user.login,
+                    'avatar': elem.user.avatar_url,
+                    'id': elem.user.id
+                };
+                comments.push(comment);
+            }
+            for (let elem of comments) createElement(elem, commentDiv);
+            comments = [];
+            getComments(comments, commentDiv, path, ++numberPage);
+        }
+    };
+    xhttp.open("GET", `${path}&page=${numberPage}`, true);
+    xhttp.send();
 }
 
 function createElement(elem, commentDiv) {

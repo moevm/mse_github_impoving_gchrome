@@ -1,10 +1,12 @@
+let toggle = false;
+
 chrome.extension.onMessage.addListener(function(request, sender, response) {
     if (request.type === 'updatePage') {
         chrome.storage.local.get((['token'], (res) => {
             let token = res['token'];
             let url = window.location.pathname.split("/");
             let path = `https://api.github.com/repos/${url[1]}/${url[2]}/commits?access_token=${token}`;
-            createCommitsList(path, url);
+            if (token != undefined) createCommitsList(path, url);
         }));
     }
     return true;
@@ -13,20 +15,50 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
 function createCommitsList(path, url) {
     let label = document.getElementsByClassName("commit-tease js-details-container Details d-flex rounded-top-1");
     if (label[0] !== undefined && label.length === 1) {
+        let select = document.createElement('div');
+        select.setAttribute('id', 'selectCommits');
+        select.className += ' commit-tease js-details-container Details d-flex rounded-top-1';
+        select.style.cursor = 'pointer';
+        select.setAttribute('min-width', '300');
+        let textSelect = document.createElement('u');
+        textSelect.innerHTML = 'SHOW last users commit';
+        select.appendChild(textSelect);
+        label[0].before(select);
         let usersCommits = [];
-        function findName(name) {
-            for (let elem of usersCommits) if(elem.name === name) return true;
-            return false;
-        }
+        getCommits(select, usersCommits, url, path, 1);
+        document.getElementById("selectCommits").onclick = () => {
+            let commits = document.getElementsByClassName("optionCommit");
+            if (toggle) {
+                textSelect.innerHTML = 'SHOW last users commit';
+                for(let elem of commits) hide(elem);
+            } else {
+                textSelect.innerHTML = 'HIDE last users commit';
+                for(let elem of commits) show(elem);
+            }
+            toggle = !toggle;
+        };
+    }
+}
 
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function (data) {
-            if (this.readyState === 4 && this.status === 200) {
-                let responseData = JSON.parse(data.target.response);
-                for (let elem of responseData) {
-                    if (findName(elem.commit.author.name)) continue;
+function getCommits(select, usersCommits, url, path, numberPage) {
+    function findName(name) {
+        for (let elem of usersCommits) if(elem.name === name) return true;
+        return false;
+    }
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (data) {
+        if (this.readyState === 4 && this.status === 200) {
+            let responseData = JSON.parse(data.target.response);
+            if (responseData.length === 0) {
+                usersCommits.splice(0, 1); // удаление последнего коммита - он чаще всего совпадает с тем, что в стандартной гит строке
+                for (let elem of usersCommits) createElement(elem, url, select);
+                return;
+            }
+            for (let elem of responseData) {
+                try {
+                    if (findName(elem.author.login)) continue;
                     let lastCommitUser = {
-                        'name': elem.commit.author.name,
+                        'name': elem.author.login,
                         'commit': elem.commit.message,
                         'date': elem.commit.author.date,
                         'avatar': elem.author.avatar_url,
@@ -34,49 +66,21 @@ function createCommitsList(path, url) {
                         'id': elem.author.id
                     };
                     usersCommits.push(lastCommitUser);
+                } catch (e) {
+                    continue;
                 }
-
-                let select = document.createElement('div');
-                select.setAttribute('id', 'selectCommits');
-                select.className += ' commit-tease js-details-container Details d-flex rounded-top-1';
-                select.style.cursor = 'pointer';
-                select.setAttribute('min-width', '300');
-                let textSelect = document.createElement('u');
-                textSelect.innerHTML = 'SHOW last users commit';
-                select.appendChild(textSelect);
-                label[0].before(select);
-
-                for (let elem of usersCommits) createElement(elem, url, select);
-
-                let toggle = false;
-                document.getElementById("selectCommits").onclick = () => {
-                    let commits = document.getElementsByClassName("optionCommit");
-                    if (toggle) {
-                        textSelect.innerHTML = 'SHOW last users commit';
-                        for(let elem of commits) {
-                            elem.classList.remove('d-flex');
-                            elem.style.display = 'none';
-                        }
-                    } else {
-                        textSelect.innerHTML = 'HIDE last users commit';
-                        for(let elem of commits) {
-                            elem.style.display = '';
-                            elem.classList.add('d-flex');
-                        }
-                    }
-                    toggle = !toggle;
-                };
             }
-        };
-        xhttp.open("GET", path, true);
-        xhttp.send();
-    }
+            getCommits(select, usersCommits, url, path, ++numberPage);
+        }
+    };
+    xhttp.open("GET", `${path}&page=${numberPage}`, true);
+    xhttp.send();
 }
 
 function createElement(elem, url, select) {
     let container = document.createElement("div");
     container.className += ' commit-tease js-details-container Details rounded-top-1 optionCommit';
-    container.style.display = 'none';
+    toggle ? show(container) : hide(container);
     let avatarContainer = document.createElement("div");
     avatarContainer.className += ' AvatarStack flex-self-start';
     let avatar = document.createElement("div");
@@ -137,4 +141,14 @@ function createElement(elem, url, select) {
     container.appendChild(info);
     container.appendChild(commitAndDate);
     select.after(container);
+}
+
+function show(elem) {
+    elem.style.display = '';
+    elem.classList.add('d-flex');
+}
+
+function hide(elem) {
+    elem.classList.remove('d-flex');
+    elem.style.display = 'none';
 }
