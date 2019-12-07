@@ -11,6 +11,7 @@ function createComments(partPath, token) {
     let commentBlock = document.getElementsByClassName("previewable-edit reorderable-task-lists project-comment-body-hover js-comment js-task-list-container");
     if (commentBlock[0] !== undefined && commentBlock[0].childElementCount === 4) {
         let commentDiv = document.createElement("div");
+        commentDiv.className = ' comments';
         commentBlock[0].appendChild(commentDiv);
         let numberSpan = document.getElementsByClassName('link-gray-dark js-project-card-details-external-link');
         let numberIssue = numberSpan[0].childNodes[3].innerHTML.replace('#', '');
@@ -36,7 +37,6 @@ function getComments(comments, commentDiv, path, numberPage) {
                 };
                 comments.push(comment);
             }
-            commentDiv.className = ' comments';
             for (let elem of comments) createElement(elem, commentDiv);
             comments = [];
             let iconCountComments = document.getElementsByClassName('octicon octicon-comment v-align-middle');
