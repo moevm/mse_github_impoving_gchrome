@@ -11,13 +11,18 @@ function createComments(partPath, token) {
     let commentBlock = document.getElementsByClassName("previewable-edit reorderable-task-lists project-comment-body-hover js-comment js-task-list-container");
     if (commentBlock[0] !== undefined && commentBlock[0].childElementCount === 4) {
         let commentDiv = document.createElement("div");
-        commentDiv.className = ' comments';
         commentBlock[0].appendChild(commentDiv);
         let numberSpan = document.getElementsByClassName('link-gray-dark js-project-card-details-external-link');
         let numberIssue = numberSpan[0].childNodes[3].innerHTML.replace('#', '');
         let comments = [];
         let path = `${partPath}${numberIssue}/comments?access_token=${token}`;
-        getComments(comments, commentDiv, path, 1)
+        getComments(comments, commentDiv, path, 1);
+        let iconCountComments = document.getElementsByClassName('octicon octicon-comment v-align-middle');
+        let button = iconCountComments[0].parentNode;
+        button.style.cursor = 'pointer';
+        button.addEventListener('click', (event) => {
+            commentDiv.style.display === 'none' ? commentDiv.style.display = '' : commentDiv.style.display = 'none';
+        });
     }
 }
 
@@ -39,17 +44,6 @@ function getComments(comments, commentDiv, path, numberPage) {
             }
             for (let elem of comments) createElement(elem, commentDiv);
             comments = [];
-            let iconCountComments = document.getElementsByClassName('octicon octicon-comment v-align-middle');
-            let button = iconCountComments[0].parentNode;
-            button.style.cursor = 'pointer';
-            button.addEventListener('click', (event) => {
-                let commentsBlock = document.getElementsByClassName('comments')[0];
-                if (commentsBlock.style.display === 'none') {
-                    commentsBlock.style.display = '';
-                } else {
-                    commentsBlock.style.display = 'none';
-                }
-            });
             getComments(comments, commentDiv, path, ++numberPage);
         }
     };
