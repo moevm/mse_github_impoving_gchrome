@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('logout-button').addEventListener("click", function () {
         window.oauth2.clearToken();
+        location.reload();
     });
 
     document.getElementById('oauth-button').addEventListener("click", function() {
