@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    chrome.storage.local.get("isAuth", function(result) {
-        if(result.isAuth) {
+    chrome.storage.local.get("token", function(result) {
+        if(typeof result.token !== "undefined") {
             document.getElementById("create_repo_panel").style.display = "block";
             document.getElementById("logout-button").style.display = "block";
             document.getElementById("oauth-button").style.display = "none";
@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     checkPageButton.addEventListener('click', function() {
         chrome.tabs.getSelected(null, function(tab) {
             chrome.storage.local.get((['token'], (res) => {
-                alert(res.token);
-                const count = document.getElementById('count').valueOf().value;
                 const year = document.getElementById('year').valueOf().value;
                 const grList = document.getElementById('grList').valueOf().value.split(',').map(user => user.trim());
                 const token = res.token;
@@ -46,18 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
 
     document.getElementById('logout-button').addEventListener("click", function () {
-        chrome.storage.local.set({"isAuth": false});
-        document.getElementById("create_repo_panel").style.display = "none";
-        document.getElementById("logout-button").style.display = "none";
-        document.getElementById("oauth-button").style.display = "block";
         window.oauth2.clearToken();
+        location.reload();
     });
 
     document.getElementById('oauth-button').addEventListener("click", function() {
-        chrome.storage.local.set({"isAuth": true});
-        document.getElementById("oauth-button").style.display = "none";
-        document.getElementById("logout-button").style.display = "block";
-        document.getElementById("create_repo_panel").style.display = "block";
         window.oauth2.start();
     });
 }, false);
