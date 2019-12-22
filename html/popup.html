@@ -20,42 +20,42 @@
 </head>
 <body>
 <div class="main">
-    <button id="oauth-button" style="display: block"> Click Me to Authorize with GitHub</button>
-    <button id="logout-button" style="display: none"> Click Me to LogOut with GitHub</button>
-    <div id="create_repo_panel" style="display: none">
-        <h3>MOEVM Github</h3>
+    <div id="create_repo_panel" style="display: none;">
+        <h3 style="text-align: center;">MOEVM Github</h3>
         <div>
-            <label>
+            <label style="margin-left: 15px">
                 Year:
-                <input id="year" type="text" value="2019">
+                <input id="year" type="text" value="2019" style="margin-left: 25px">
             </label>
         </div>
-        <div>
-            <label>
+        <div style="margin-top: 3px">
+            <label style="margin-left: 15px">
                 Count:
-                <input id="count" type="text" value="4">
+                <input id="count" type="text" value="4" style="margin-left: 13px">
             </label>
         </div>
-        <div>
-            <label>
+        <div style="margin-top: 3px">
+            <label style="margin-left: 15px">
                 Groups:
-                <input id="grList" type="text" placeholder="Group list comma separeted...">
+                <input id="grList" type="text" placeholder="Group list comma separeted..." style="margin-left: 4px">
             </label>
         </div>
-        <div>
-            <label>
+        <div style="margin-top: 3px">
+            <label style="margin-left: 15px">
                 Users:
-                <input id="users" type="text" placeholder="Users comma separeted...">
+                <input id="users" type="text" placeholder="Users comma separeted..." style="margin-left: 16px">
             </label>
         </div>
-        <div>
-            <label>
+        <div style="margin-top: 3px; margin-bottom: 10px;">
+            <label style="margin-left: 15px">
                 Teams:
-                <input id="teams" type="text" placeholder="Teams comma separeted...">
+                <input id="teams" type="text" placeholder="Teams comma separeted..." style="margin-left: 10px">
             </label>
         </div>
         <button id="createRepos" class="w3-button w3-black">Create repos</button>
     </div>
+    <button id="oauth-button" style="display: block; margin-top: 4px" class="w3-button w3-black"> Click Me to Authorize with GitHub</button>
+    <button id="logout-button" style="display: none; margin-top: 10px" class="w3-button w3-black"> Click Me to LogOut with GitHub</button>
 </div>
 </body>
 </html>
