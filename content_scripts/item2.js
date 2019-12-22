@@ -1,6 +1,5 @@
 let search = document.getElementsByClassName("d-sm-flex project-header-controls flex-row flex-items-center f6");
 if(search[0] !== undefined) {
-    console.log(search);
     let gitExt = document.createElement("div");
     gitExt.id = "git_ext";
 
@@ -20,5 +19,3 @@ if(search[0] !== undefined) {
 
     search[0].appendChild(gitExt);
 }
-else console.log("FALSE!");
-
