@@ -24,7 +24,7 @@ function setClips() {
     for (let elem of connections_pulls) {
         try {
             let isCreate = isIssue(elem.nextElementSibling.nextElementSibling.firstElementChild.innerHTML.replace('#', ''));
-            if (isCreate) {
+            if (!isCreate) {
                 let conflict_icon = document.createElement("img");
                 conflict_icon.className = "conflict-icon-ext octicon-check v-align-middle";
                 conflict_icon.src = "https://image.flaticon.com/icons/svg/107/107817.svg";
