@@ -32,7 +32,6 @@
   "content_scripts": [
     {
       "matches": [ "*://github.com/*/*" ],
-      "css": ["styles/item5.css"],
       "js": [ "content_scripts/item5.js" ]
     },
     {
@@ -57,7 +56,6 @@
     },
     {
       "matches": [ "*://github.com/*/*/projects/*" ],
-      "css": ["styles/item4.css"],
       "js": [ "content_scripts/item4.js" ]
     },
     {
