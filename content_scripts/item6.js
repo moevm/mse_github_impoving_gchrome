@@ -19,14 +19,14 @@ function addMergeConflitIcon(pulls) {
         if(!pr.merge_commit_sha) {
             let issue = $(`#issue_${pr.number}`)
             if(issue.length) {
-                issue = issue.children()[0].children[1]
+                issue = issue.children()[0].children[3].children[1]
                 let conflict_icon = document.createElement("img")
                 conflict_icon.className = "conflict-icon-ext octicon octicon-check v-align-middle"
                 conflict_icon.src = "https://image.flaticon.com/icons/svg/578/578996.svg"
                 conflict_icon.alt = "Conflict"
                 conflict_icon.title = "Merge conflict"
 
-                issue.appendChild(conflict_icon)
+                issue.prepend(conflict_icon)
             }
         }
     }
